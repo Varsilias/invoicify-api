@@ -7,6 +7,8 @@ import { ConflictException } from 'src/common/exceptions/conflict.exception';
 import { ServerErrorException } from 'src/common/exceptions/server-error.exception';
 import { JwtService } from '@nestjs/jwt';
 import { BadRequestException } from 'src/common/exceptions/bad-request.exception';
+import { UpdateUserDto } from 'src/api/user/dto/update-user.dto';
+import { IDecoratorUser } from 'src/common/decorators/current-user.decorator';
 
 @Injectable()
 export class AuthService {
@@ -58,5 +60,18 @@ export class AuthService {
     const { password, ...data } = user;
 
     return { access_token: accessToken, user: data };
+  }
+
+  async updateUser(updateUserDto: UpdateUserDto, user: IDecoratorUser) {
+    try {
+      const data = await this.userService.update(
+        { where: { id: user.id } },
+        updateUserDto,
+      );
+
+      return data;
+    } catch (error: any) {
+      throw new ServerErrorException('Something went wrong', null);
+    }
   }
 }

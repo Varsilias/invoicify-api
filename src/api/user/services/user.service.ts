@@ -4,6 +4,7 @@ import { UserEntity } from '../entities/user.entity';
 import { FindOneOptions } from 'typeorm';
 import { NotFoundException } from 'src/common/exceptions/notfound.exception';
 import { SignUpDto } from 'src/api/auth/dto';
+import { BadRequestException } from 'src/common/exceptions/bad-request.exception';
 
 @Injectable()
 export class UserService {
@@ -33,6 +34,10 @@ export class UserService {
       throw new NotFoundException('User does not exist', {});
     }
     const updatedUser = await this.userRepository.update(entity.id, user);
-    return updatedUser;
+    if (!updatedUser.affected) {
+      throw new BadRequestException('Unable to update user info', null);
+    }
+
+    return await this.findUserBy({ where: { id: entity.id } });
   }
 }

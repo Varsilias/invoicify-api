@@ -9,6 +9,7 @@ import { TransformInterceptor } from './common/interceptors/response-transform.i
 async function bootstrap() {
   const config = new ConfigService();
   const app = await NestFactory.create(AppModule);
+
   const reflector = app.get(Reflector);
 
   app.setGlobalPrefix('/api/v1');

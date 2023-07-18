@@ -13,7 +13,7 @@ services:
       POSTGRES_USER: $DB_USER
 
     networks:
-      - ktm_network
+      - invoicify_network
     volumes:
       - db-data:/var/lib/postgresql/data
     ports:
@@ -32,7 +32,7 @@ services:
       PGADMIN_DEFAULT_EMAIL: daniel@email.com
       PGADMIN_DEFAULT_PASSWORD: P@ssword1234
     networks:
-      - ktm_network
+      - invoicify_network
     volumes:
       - pgadmin-data:/var/lib/pgadmin
     ports:
@@ -50,7 +50,7 @@ services:
   #     - ktm_network
 
 networks:
-  ktm_network:
+  invoicify_network:
     driver: bridge
 volumes:
   db-data:
