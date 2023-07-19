@@ -3,40 +3,74 @@ import {
   Get,
   Post,
   Body,
-  Patch,
+  Put,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { InvoiceService } from '../services/invoice.service';
 import { CreateInvoiceDto } from '../dto/create-invoice.dto';
 import { UpdateInvoiceDto } from '../dto/update-invoice.dto';
+import {
+  CurrentUser,
+  IDecoratorUser,
+} from 'src/common/decorators/current-user.decorator';
 
 @Controller('invoice')
 export class InvoiceController {
   constructor(private readonly invoiceService: InvoiceService) {}
 
   @Post()
-  create(@Body() createInvoiceDto: CreateInvoiceDto) {
-    return this.invoiceService.create(createInvoiceDto);
+  create(
+    @Body() createInvoiceDto: CreateInvoiceDto,
+    @CurrentUser() user: IDecoratorUser,
+  ) {
+    return this.invoiceService.create(createInvoiceDto, user);
   }
 
   @Get()
-  findAll() {
-    return this.invoiceService.findAll();
+  findAll(
+    @CurrentUser() user: IDecoratorUser,
+    @Query('status') status: string,
+  ) {
+    return this.invoiceService.findAll(user, status);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.invoiceService.findOne(+id);
+  @Get(':publicId')
+  findOne(
+    @Param('publicId') publicId: string,
+    @CurrentUser() user: IDecoratorUser,
+  ) {
+    return this.invoiceService.findOne(publicId, user);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateInvoiceDto: UpdateInvoiceDto) {
-    return this.invoiceService.update(+id, updateInvoiceDto);
+  @Put(':publicId')
+  update(
+    @Param('publicId') publicId: string,
+    @Body() updateInvoiceDto: UpdateInvoiceDto,
+    @CurrentUser() user: IDecoratorUser,
+  ) {
+    return this.invoiceService.update(publicId, updateInvoiceDto, user);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.invoiceService.remove(+id);
+  @Delete(':publicId')
+  remove(
+    @Param('publicId') publicId: string,
+    @CurrentUser() user: IDecoratorUser,
+  ) {
+    return this.invoiceService.remove(publicId, user);
+  }
+
+  @Delete(':invoicePublicId/item/:publicId')
+  deleteItem(
+    @Param('publicId') publicId: string,
+    @Param('invoicePublicId') invoicePublicId: string,
+    @CurrentUser() user: IDecoratorUser,
+  ) {
+    return this.invoiceService.removeInvoiceItem(
+      publicId,
+      invoicePublicId,
+      user,
+    );
   }
 }

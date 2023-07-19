@@ -16,6 +16,9 @@ export class ItemEntity extends BaseEntity<ItemEntity> {
   @Column({ type: 'decimal' })
   total: number;
 
-  @ManyToOne(() => InvoiceEntity, (invoice) => invoice.items)
+  @ManyToOne(() => InvoiceEntity, (invoice) => invoice.items, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
   invoice: InvoiceEntity;
 }

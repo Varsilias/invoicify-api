@@ -5,6 +5,7 @@ import {
   Put,
   HttpCode,
   HttpStatus,
+  Get,
 } from '@nestjs/common';
 import { AuthService } from '../services/auth.service';
 import { SignUpDto, SignInDto } from '../dto';
@@ -30,6 +31,13 @@ export class AuthController {
   @Public()
   signIn(@Body() signInDto: SignInDto) {
     return this.authService.signIn(signInDto);
+  }
+
+  @Get('get_info')
+  getUserInfo(@CurrentUser() user: IDecoratorUser) {
+    const { firstname, lastname, email, street, city, postCode, country } =
+      user;
+    return { firstname, lastname, email, street, city, postCode, country };
   }
 
   @Put('update_info')

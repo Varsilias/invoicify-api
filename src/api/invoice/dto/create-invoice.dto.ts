@@ -57,6 +57,6 @@ export class CreateInvoiceDto {
 
   @IsNotEmpty()
   @IsArray({ message: 'items must be a list of objects' })
-  @ArrayNotEmpty({ message: 'items list must contain at least 2 items' })
+  @ArrayNotEmpty({ message: 'items list must contain at least i items' })
   items: ItemEntity[];
 }
