@@ -9,9 +9,13 @@ jobs:
   build:
     name: Build and Deploy to Heroku
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x, 16.x, 18.x, 20.x]
     steps:
       - name: Checkout respository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Create .env file from Secret
         id: import-env
@@ -24,6 +28,12 @@ jobs:
           echo "ls -a ${{ github.workspace }}"
           ls -a ${{ github.workspace }}
         shell: bash
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm install
 
       - name: Deploy to Heroku
         uses: akhileshns/heroku-deploy@v3.12.14 # This is the action
