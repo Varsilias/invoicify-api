@@ -17,7 +17,7 @@ jobs:
       - name: Create .env file from Secret
         id: import-env
         run: |
-          echo "${{ secrets.STAG_ENV_FILE }}" >> .env
+          echo "${{ secrets.STAG_ENV_FILE }}" >> .env.staging
 
           echo "ls -a ."
           ls -a .
