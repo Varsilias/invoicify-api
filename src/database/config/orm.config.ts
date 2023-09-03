@@ -1,4 +1,4 @@
-import { DataSource, DataSourceOptions, DatabaseType } from 'typeorm';
+import { DataSource, DataSourceOptions } from 'typeorm';
 import { ConfigService } from '../../config/config.service';
 
 const config = new ConfigService();

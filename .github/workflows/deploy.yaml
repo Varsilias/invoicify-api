@@ -1,0 +1,34 @@
+name: Deploy to Heroku
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    name: Build and Deploy to Heroku
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create .env file from Secret
+        id: import-env
+        run: |
+          echo "${{ secrets.STAG_ENV_FILE }}" >> .env
+
+          echo "ls -a ."
+          ls -a .
+
+          echo "ls -a ${{ github.workspace }}"
+          ls -a ${{ github.workspace }}
+        shell: bash
+
+      - name: Checkout respository
+        uses: actions/checkout@v2
+
+      - name: Deploy to Heroku
+        uses: akhileshns/heroku-deploy@v3.12.14 # This is the action
+        with:
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+          heroku_app_name: ${{ secrets.HEROKU_APP_NAME }} #Must be unique in Heroku
+          heroku_email: ${{ secrets.HEROKU_EMAIL }}
+          env_file: '.env'
