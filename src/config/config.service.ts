@@ -43,8 +43,8 @@ export class ConfigService {
   }
 
   private static parseEnvVariables() {
-    const env = process.env.NODE_ENV;
-    const envFile = path.resolve(`${process.cwd()}/.env.${env}`);
+    const env = !process.env.NODE_ENV ? '.env' : `.env.${process.env.NODE_ENV}`;
+    const envFile = path.resolve(`${process.cwd()}/${env}`);
     return dotenv.parse(fs.readFileSync(envFile));
   }
 
@@ -69,6 +69,10 @@ export class ConfigService {
 
   get inProduction(): boolean {
     return this.envConfig.NODE_ENV === 'production';
+  }
+
+  get inDevelopment(): boolean {
+    return this.envConfig.NODE_ENV === 'development';
   }
 
   get PORT(): number {
