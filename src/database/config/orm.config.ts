@@ -18,7 +18,7 @@ export const ormConfig: DataSourceOptions = {
   synchronize: config.DB_SYNC,
   logging: !config.inProduction ? ['error', 'migration', 'warn'] : true,
   migrations: [__dirname + '/../migrations/**{.ts,.js}'],
-  ssl: config.inProduction ? { rejectUnauthorized: false } : false,
+  ssl: config.inProduction ? { rejectUnauthorized: false } : true,
 };
 
 export const AppDataSource = new DataSource(ormConfig);
