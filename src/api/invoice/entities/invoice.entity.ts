@@ -15,7 +15,11 @@ export class InvoiceEntity extends BaseEntity<InvoiceEntity> {
   @Column({ type: 'text' })
   description: string;
 
-  @Column('enum', { enum: InvoiceStatusEnum })
+  @Column({
+    type: 'enum',
+    enum: InvoiceStatusEnum,
+    default: InvoiceStatusEnum.PENDING,
+  })
   status: InvoiceStatusEnum;
 
   @Column({ type: 'varchar' })
@@ -39,7 +43,7 @@ export class InvoiceEntity extends BaseEntity<InvoiceEntity> {
   @Column({ type: 'timestamptz' })
   paymentDue: Date;
 
-  @Column('enum', { enum: PaymentTermsEnum })
+  @Column({ type: 'enum', enum: PaymentTermsEnum })
   paymentTerms: PaymentTermsEnum;
 
   @OneToMany(() => ItemEntity, (items) => items.invoice)
