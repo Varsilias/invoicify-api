@@ -18,6 +18,7 @@ export class InvoiceEntity extends BaseEntity<InvoiceEntity> {
   @Column({
     type: 'enum',
     enum: InvoiceStatusEnum,
+    enumName: 'InvoiceStatusEnum',
     default: InvoiceStatusEnum.PENDING,
   })
   status: InvoiceStatusEnum;
@@ -43,7 +44,11 @@ export class InvoiceEntity extends BaseEntity<InvoiceEntity> {
   @Column({ type: 'timestamptz' })
   paymentDue: Date;
 
-  @Column({ type: 'enum', enum: PaymentTermsEnum })
+  @Column({
+    type: 'enum',
+    enum: PaymentTermsEnum,
+    enumName: 'PaymentTermsEnum',
+  })
   paymentTerms: PaymentTermsEnum;
 
   @OneToMany(() => ItemEntity, (items) => items.invoice)
