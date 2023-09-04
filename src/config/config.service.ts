@@ -76,7 +76,7 @@ export class ConfigService {
   }
 
   get PORT(): number {
-    return parseInt(this.envConfig.PORT || '3000', 10);
+    return parseInt(process.env.PORT || this.envConfig.PORT || '3000', 10);
   }
 
   get BASE_URL(): string {
