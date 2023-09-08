@@ -17,7 +17,7 @@ export const ormConfig: DataSourceOptions = {
   entities: [__dirname + '/../../**/*.entity{.ts,.js}'],
   synchronize: config.DB_SYNC,
   logging: !config.inProduction ? ['error', 'migration', 'warn'] : true,
-  migrations: [__dirname + '/../migrations/scaffolds/**{.ts,.js}'],
+  migrations: [__dirname + '/../migrations/seeds/**{.ts,.js}'],
   ssl: config.inDevelopment ? false : { rejectUnauthorized: false },
 };
 

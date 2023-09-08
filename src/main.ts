@@ -5,6 +5,7 @@ import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
 import { ParamValidationPipe } from './common/pipes/param-validation.pipe';
 import { CustomExceptionFilter } from './common/filters/custom-exception.filter';
 import { TransformInterceptor } from './common/interceptors/response-transform.interceptor';
+// import * as bcrypt from 'bcrypt';
 
 async function bootstrap() {
   const config = new ConfigService();
@@ -21,6 +22,8 @@ async function bootstrap() {
   app.useGlobalFilters(new CustomExceptionFilter());
   app.useGlobalInterceptors(new TransformInterceptor());
   app.useGlobalInterceptors(new ClassSerializerInterceptor(reflector));
+
+  // console.log(bcrypt.hashSync('P@ssword1234', 10));
 
   await app.listen(config.PORT);
 }

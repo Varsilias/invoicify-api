@@ -8,7 +8,6 @@ import { ItemRepository } from '../repositories/item.repository';
 import { InvoiceEntity } from '../entities/invoice.entity';
 import { BadRequestException } from 'src/common/exceptions/bad-request.exception';
 import { PostgresError } from 'src/common/helpers/enum';
-import { ItemEntity } from '../entities/item.entity';
 import { DataSource } from 'typeorm';
 
 @Injectable()
@@ -210,10 +209,10 @@ export class InvoiceService {
   }
 
   private generateInvoiceId() {
-    let length = 6;
-    let chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const length = 6;
+    const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     let result = '';
-    for (var i = length; i > 0; --i) {
+    for (let i = length; i > 0; --i) {
       result += chars[Math.round(Math.random() * (chars.length - 1))];
     }
     return result;

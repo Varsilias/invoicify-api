@@ -20,10 +20,15 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
-    "migration:generate": "npm run typeorm migration:generate -- -d src/database/config/orm.config.ts src/database/migrations/$npm_config_name",
+    "seeder": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
+    "migration:generate": "npm run typeorm migration:generate -- -d src/database/config/orm.config.ts src/database/migrations/scaffolds/$npm_config_name",
+    "seed:generate": "npm run seeder migration:generate -- -d src/database/config/orm.config.seeder.ts src/database/migrations/seeds/$npm_config_name",
     "migration:revert": "npm run typeorm migration:revert -- -d src/database/config/orm.config.ts",
+    "seed:revert": "npm run seeder migration:revert -- -d src/database/config/orm.config.seeder.ts",
     "migration:create": "npm run typeorm migration:create src/database/migrations/$npm_config_name",
-    "migration:run": "npm run typeorm migration:run -- -d src/database/config/orm.config.ts"
+    "seed:create": "npm run seeder migration:create src/database/migrations/seeds/$npm_config_name",
+    "migration:run": "npm run typeorm migration:run -- -d src/database/config/orm.config.ts",
+    "seed:run": "npm run seeder migration:run -- -d src/database/config/orm.config.seeder.ts"
   },
   "dependencies": {
     "@golevelup/ts-jest": "^0.3.8",

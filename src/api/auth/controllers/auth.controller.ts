@@ -47,7 +47,4 @@ export class AuthController {
   ) {
     return this.authService.updateUser(updateUserDto, user);
   }
-
-  @Post('verify_email')
-  verifyEmail() {}
 }
