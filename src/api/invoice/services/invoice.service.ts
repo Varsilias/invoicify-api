@@ -45,17 +45,25 @@ export class InvoiceService {
   async findAll(user: IDecoratorUser, status?: string) {
     const { id } = user;
 
-    let data: InvoiceEntity[];
+    let data: InvoiceEntity[] = [];
 
     if (status) {
       data = await this._invoiceRepository.filterInvoices(user, status);
-      return data;
+    } else {
+      data = await this._invoiceRepository.find({
+        where: { user: { id } },
+        relations: { items: true },
+      });
     }
 
-    data = await this._invoiceRepository.find({
-      where: { user: { id } },
+    return data.map(({ items, ...record }) => {
+      return {
+        ...record,
+        total: items.reduce((acc: number, item) => {
+          return acc + Number(item.total);
+        }, 0),
+      };
     });
-    return data;
   }
 
   async findOne(publicId: string, user: IDecoratorUser) {

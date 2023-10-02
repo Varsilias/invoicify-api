@@ -15,6 +15,7 @@ export class InvoiceRepository extends Repository<InvoiceEntity> {
       .from(InvoiceEntity, 'invoice')
       .where('invoice.user = :id', { id: user.id })
       .andWhere('invoice.status = :status', { status })
+      .leftJoinAndSelect('invoice.items', 'items')
       .getMany();
   }
 }
